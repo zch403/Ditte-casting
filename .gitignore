@@ -1,0 +1,58 @@
+# ========================
+# .NET / ASP.NET Core
+# ========================
+
+# Build output
+bin/
+obj/
+
+# User-specific files
+*.user
+*.suo
+*.userosscache
+*.sln.docstates
+
+# Rider / VSCode / IDE configs
+.vscode/
+.idea/
+
+# Logs
+*.log
+
+# Publish output
+publish/
+
+# ASP.NET temporary files
+wwwroot/uploads/
+wwwroot/tmp/
+
+# Secrets
+appsettings.*.json
+*.pfx
+
+# ========================
+# Node / Angular
+# ========================
+
+# Node dependencies
+node_modules/
+
+# Angular build output
+dist/
+out-tsc/
+
+# IDE / Editor
+.vscode/
+.idea/
+
+# System files
+.DS_Store
+Thumbs.db
+
+# npm logs
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# Environment files
+.env

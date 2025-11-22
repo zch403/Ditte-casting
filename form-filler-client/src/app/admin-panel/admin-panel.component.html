@@ -1,0 +1,18 @@
+<div *ngIf="isLoggedIn$ | async; else loginForm">
+  <button (click)="logoutAdmin()">Logout</button>
+  <h3>Admin panel</h3>
+
+  <ul class="name-list">
+    <li *ngFor="let n of names" class="name-item">
+      <span>{{ n.name }}</span>
+      <button class="delete-btn" (click)="delete(n.id)">×</button>
+    </li>
+  </ul>
+</div>
+
+<ng-template #loginForm>
+  <h3>Admin Login</h3>
+  <input [(ngModel)]="adminUsername" placeholder="Username" />
+  <input [(ngModel)]="adminPassword" placeholder="Password" type="password" />
+  <button (click)="loginAdmin()">Login</button>
+</ng-template>

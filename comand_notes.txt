@@ -1,0 +1,13 @@
+pgrep postgres
+    lsof -i :5432
+
+psql -h localhost -U rasmuskiel -d postgres
+
+To access the database:
+    psql -h localhost -U rasmuskiel -d form_filler
+
+To run front-end:
+    ng serve
+
+To run back-end:
+    dotnet run
