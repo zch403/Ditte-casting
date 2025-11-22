@@ -17,7 +17,8 @@ namespace NameApp.Api.Controllers
         [HttpPost]
         public async Task<IActionResult> SubmitName([FromBody] NameEntry entry)
         {
-            Console.WriteLine($"Received: {entry?.Name ?? "NULL"}");
+            if (entry == null)
+                return BadRequest("Entry cannot be null.");
             _db.Names.Add(entry);
             await _db.SaveChangesAsync();
             return Ok(entry);

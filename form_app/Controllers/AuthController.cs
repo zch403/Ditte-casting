@@ -58,6 +58,11 @@ namespace NameApp.Api.Controllers
 
     public class LoginModel
     {
+        public  LoginModel(string Username, string Password)
+        {
+            this.Username = Username;
+            this.Password = Password;
+        }
         public string Username { get; set; }
         public string Password { get; set; }
     }

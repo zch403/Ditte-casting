@@ -68,11 +68,7 @@ using (var scope = app.Services.CreateScope())
     if (!db.AdminUsers.Any())
     {
         var hasher = new PasswordHasher<AdminUser>();
-        var admin = new AdminUser
-        {
-            Username = "admin",
-            PasswordHash = hasher.HashPassword(null!, "NotTheRealPassword")
-        };
+        var admin = new AdminUser("admin", hasher.HashPassword(null!, "NotTheRealPassword"));
         db.AdminUsers.Add(admin);
         db.SaveChanges();
         Console.WriteLine("Admin user seeded.");
