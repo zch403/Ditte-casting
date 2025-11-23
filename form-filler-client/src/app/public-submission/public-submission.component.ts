@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { ApiService, NameEntry } from '../api.service';
+import { ApiService } from '../api.service';
 
 @Component({
   selector: 'app-public-submission',

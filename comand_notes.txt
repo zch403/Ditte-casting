@@ -6,8 +6,18 @@ psql -h localhost -U rasmuskiel -d postgres
 To access the database:
     psql -h localhost -U rasmuskiel -d form_filler
 
+To see all tables: \dt
+
 To run front-end:
     ng serve
 
 To run back-end:
     dotnet run
+
+To do new migration:
+    dotnet ef migrations add SomeNameForMigration
+    dotnet ef database update
+
+To roll back to OldAndWantedMigration do:
+    dotnet ef database update OldAndWantedMigration
+    dotnet ef migrations remove

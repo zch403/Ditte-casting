@@ -45,7 +45,7 @@ namespace NameApp.Api.Controllers
                     new Claim(ClaimTypes.Name, admin.Username),
                     new Claim(ClaimTypes.Role, "Admin")
                 }),
-                Expires = DateTime.UtcNow.AddHours(1),
+                Expires = DateTime.UtcNow.AddMinutes(15),
                 SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(key), SecurityAlgorithms.HmacSha256Signature)
             };
 
