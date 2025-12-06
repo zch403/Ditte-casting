@@ -8,6 +8,6 @@ namespace NameApp.Api.Models
         public string Title { get; set; } = string.Empty;
         public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
         public List<FormField> Fields { get; set; } = new List<FormField>();
-
+        public bool IsActive { get; set; } = false;
     }
 }

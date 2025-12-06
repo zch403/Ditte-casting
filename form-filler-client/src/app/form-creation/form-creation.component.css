@@ -1,0 +1,60 @@
+.fields-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.form-creation-container {
+  max-width: 700px;
+  padding-left: 10px;
+  padding-top: 0px;
+  font-family: sans-serif;
+}
+
+.create-btn {
+  background: #4caf50;
+  color: white;
+  border: none;
+  padding: 10px 18px;
+  border-radius: 5px;
+  cursor: pointer;
+  margin-bottom: 20px;
+  font-size: 16px;
+}
+
+.create-btn:hover {
+  background: #45a049;
+}
+
+.field-card {
+  border: 1px solid #dcdcdc;
+  padding: 18px;
+  border-radius: 10px;
+  background: #fafafa;
+  text-align: left;
+  margin: 0 0 10px 0;
+}
+
+.field-card h2 {
+  margin: 0 0 10px 0;
+}
+
+.row {
+  display: flex;
+  gap: 6px;
+  margin-bottom: 12px;
+}
+
+.label {
+  font-weight: bold;
+}
+
+.index {
+  font-size: 25px;
+  font-weight: bold;
+}
+.error-message {
+  color: red;
+  font-weight: bold;
+  margin-bottom: 8px;
+}

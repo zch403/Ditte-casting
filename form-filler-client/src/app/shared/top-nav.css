@@ -1,0 +1,56 @@
+.top-nav {
+  display: flex;
+  align-items: center;
+  background-color: #3498db;
+  padding: 10px 20px;
+}
+
+/* left-aligned links */
+.nav-left a {
+  color: white;
+  text-decoration: none;
+  margin-right: 20px;
+  font-weight: bold;
+}
+
+.nav-left a:hover {
+  text-decoration: underline;
+}
+
+/* right-aligned content */
+.nav-right {
+  margin-left: auto; /* pushes this group to the right */
+  display: flex;
+  align-items: center;
+}
+
+.nav-input {
+  margin-left: 10px;
+  padding: 4px 8px;
+  border-radius: 4px;
+  border: none;
+}
+
+.nav-btn {
+  margin-left: 10px;
+  padding: 4px 10px;
+  border-radius: 4px;
+  border: none;
+  background-color: #4caf50;
+  color: white;
+  cursor: pointer;
+}
+
+.nav-btn:hover {
+  background-color: #45a049;
+}
+
+.nav-right a {
+  color: white;
+  text-decoration: none;
+  font-weight: bold;
+}
+
+.nav-right a:hover {
+  text-decoration: underline;
+}

@@ -1,0 +1,2 @@
+Make token not stored in local storage, add a refresh token and such.
+Make front end for making a form.

@@ -7,12 +7,14 @@ import { AppRoutingModule } from './app-routing-module';
 import { AppComponent } from './app.component';
 import { AdminPanelComponent } from './admin-panel/admin-panel.component';
 import { PublicSubmissionComponent } from './public-submission/public-submission.component';
+import { FormCreationComponent } from './form-creation/form-creation.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     AdminPanelComponent,
-    PublicSubmissionComponent
+    PublicSubmissionComponent,
+    FormCreationComponent
   ],
   imports: [
     BrowserModule,

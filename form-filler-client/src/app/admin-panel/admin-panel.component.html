@@ -1,18 +1,71 @@
-<div *ngIf="isLoggedIn$ | async; else loginForm">
-  <button (click)="logoutAdmin()">Logout</button>
-  <h3>Admin panel</h3>
+<nav class="top-nav">
+  <div class="nav-left">
+    <a routerLink="/admin">Admin</a>
+    <a routerLink="">Public</a>
+  </div>
 
-  <ul class="name-list">
+  <div class="nav-right">
+    <!-- If logged in, show logout -->
+    <div *ngIf="isLoggedIn$ | async; else loginForm">
+      <a (click)="logoutAdmin()">Logout</a>
+    </div>
+
+    <!-- Login form -->
+    <ng-template #loginForm>
+      <input
+        [(ngModel)]="adminUsername"
+        placeholder="Username"
+        class="nav-input"
+      />
+      <input
+        [(ngModel)]="adminPassword"
+        placeholder="Password"
+        type="password"
+        class="nav-input"
+      />
+      <button (click)="loginAdmin()" class="nav-btn">Login</button>
+    </ng-template>
+  </div>
+</nav>
+
+<div *ngIf="isLoggedIn$ | async">
+  <!-- <ul class="name-list">
     <li *ngFor="let n of names" class="name-item">
       <span>{{ n.name }}</span>
       <button class="delete-btn" (click)="delete(n.id)">×</button>
     </li>
-  </ul>
-</div>
+  </ul> -->
+  <div class="admin-container">
+    <div class="forms-header"> 
+      <h1>Forms:</h1>
+      <button class="create-btn" (click)="startCreateForm()">+</button>
+    </div>
 
-<ng-template #loginForm>
-  <h3>Admin Login</h3>
-  <input [(ngModel)]="adminUsername" placeholder="Username" />
-  <input [(ngModel)]="adminPassword" placeholder="Password" type="password" />
-  <button (click)="loginAdmin()">Login</button>
-</ng-template>
+    <div *ngIf="forms.length === 0" class="empty">
+      No forms yet.
+    </div>
+
+    <div class="forms-list">
+      <div class="form-card" *ngFor="let f of forms">
+        <h2>{{ f.title }}</h2>
+
+        <div class="row">
+          <span class="label">Active:</span>
+          <span class="value" [class.active]="f.isActive" [class.inactive]="!f.isActive">
+            {{ f.isActive ? 'Yes' : 'No' }}
+          </span>
+        </div>
+
+        <div class="actions">
+          <!-- Temporary delete button -->
+          <button class="delete-btn" (click)="deleteForm(f)">Delete</button>
+
+          <!-- Activate/Deactivate placeholders -->
+          <button class="toggle-btn">
+            {{ f.isActive ? 'Deactivate' : 'Activate' }}
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

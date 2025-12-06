@@ -10,8 +10,10 @@ namespace NameApp.Api.Models
         [ForeignKey("Form")]
         public int FormId { get; set; }
         public string Label { get; set; } = string.Empty;
+        public int OrderIndex { get; set; }
         public FieldType Type { get; set; }
         public bool IsRequired { get; set; }
+        public List<Condition> ConditionsWhereTrigger { get; set; } = new();
         public int? MinLength { get; set; }
         public int? MaxLength { get; set; }
         public int? MinValue { get; set; }

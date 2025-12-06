@@ -7,7 +7,22 @@ namespace NameApp.Api.Models
         Date,
         Bool,
         Email,
-        PhoneNumber,
-        Select
+        PhoneNumber
+    }
+    public static class FormFieldTypeHelper
+    {
+        public static FieldType? FromString(string typeStr)
+        {
+            return typeStr.ToLower() switch
+            {
+                "text" => FieldType.Text,
+                "number" => FieldType.Number,
+                "boolean" => FieldType.Bool,
+                "date" => FieldType.Date,
+                "email" => FieldType.Email,
+                "phonenumber" => FieldType.PhoneNumber,
+                _ => null
+            };
+        }
     }
 }
