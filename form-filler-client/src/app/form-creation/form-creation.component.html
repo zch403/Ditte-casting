@@ -39,7 +39,7 @@
         Title is required
       </div>
     </div>
-
+  <pre>{{ formGroup.value | json }}</pre>
   <div class="fields-section" formArrayName="fields">
     <div class="fields-header"> 
       <h2>Fields</h2>
@@ -77,6 +77,59 @@
         <div class="row">
           <label>Required</label>
           <input type="checkbox" formControlName="isRequired" />
+        </div>
+        <div *ngIf="f.get('type')?.value == 'text'" class="row">
+          <label>Min Length:</label>
+          <input type="number" formControlName="minLength" placeholder="Minimum length" />
+          <div *ngIf="f.errors?.['minLengthInvalid']" class="error">
+            Max length cannot be smaller than min length.
+          </div>
+        </div>
+
+        <div *ngIf="f.get('type')?.value == 'text'" class="row">
+          <label>Max Length:</label>
+          <input type="number" formControlName="maxLength" placeholder="Maximum length" />
+          <div *ngIf="f.errors?.['maxLessThanMin']" class="error">
+            Max value cannot be smaller than min value.
+          </div>
+        </div>
+
+        <div *ngIf="f.get('type')?.value == 'number'" class="row">
+          <label>Min Value:</label>
+          <input type="number" formControlName="minValue" placeholder="Minimum value" />
+        </div>
+
+        <div *ngIf="f.get('type')?.value == 'number'" class="row">
+          <label>Max Value:</label>
+          <input type="number" formControlName="maxValue" placeholder="Maximum value" />
+          <div *ngIf="f.errors?.['maxValLessThanMinVal']" class="error">
+            Max length must be 0 or greater.
+          </div>
+        </div>
+
+        <!-- Conditions section -->
+        <div class="conditions">
+          <div class="conditions-header"> 
+            <h4>Conditions</h4>
+            <button type="button" (click)="addConditionToField(i)" class="create-btn">+</button>
+          </div>
+
+          <!-- Existing conditions -->
+          <div *ngFor="let c of getConditions(i).controls; let ci = index" [formGroupName]="ci" class="field-card">
+            <div class="condition-header">
+              <h5>#{{ ci + 1 }}</h5>
+              <button type="button" (click)="removeCondition(i, ci)" class="create-btn">X</button>
+            </div>
+            <div class="condition-row">
+              <label>Operator</label>
+              <input formControlName="operator" />
+            </div>
+
+            <div class="condition-row">
+              <label>Value</label>
+              <input formControlName="value" />
+            </div>
+          </div>
         </div>
       </div>
     </div>

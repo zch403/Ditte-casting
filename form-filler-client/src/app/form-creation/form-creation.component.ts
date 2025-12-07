@@ -39,11 +39,21 @@ export class FormCreationComponent implements OnInit {
   }
 
   newField(): FormGroup {
-    return this.fb.group({
-      label: ['', Validators.required],
-      type: ['', Validators.required],
-      isRequired: [false]
-    });
+    return this.fb.group(
+      {
+        label: ['', Validators.required],
+        type: ['', Validators.required],
+        isRequired: [false],
+        conditions: this.fb.array([]),
+
+        // type-specific settings
+        minLength: [null],
+        maxLength: [null],
+        minValue: [null],
+        maxValue: [null]
+      },
+      { validators: this.fieldValidator.bind(this) }
+    );
   }
 
   addField(): void {
@@ -55,6 +65,32 @@ export class FormCreationComponent implements OnInit {
   }
   get fieldGroups(): FormGroup[] {
     return (this.formGroup.get('fields') as FormArray).controls as FormGroup[];
+  }
+
+  // Get the conditions FormArray for a specific field
+  getConditions(fieldIndex: number): FormArray {
+    return this.fields.at(fieldIndex).get('conditions') as FormArray;
+  }
+  
+  newCondition(): FormGroup {
+    return this.fb.group(
+      {
+        operator: ['', Validators.required],
+        value: ['', Validators.required],
+        targets: this.fb.array([])
+      },
+      { validators: this.conditionValidator.bind(this) }
+    );
+  }
+
+  // Add a condition to a specific field
+  addConditionToField(fieldIndex: number): void {
+    this.getConditions(fieldIndex).push(this.newCondition());
+  }
+
+  // Remove a condition
+  removeCondition(fieldIndex: number, conditionIndex: number): void {
+    this.getConditions(fieldIndex).removeAt(conditionIndex);
   }
   // -----------------------
   // Login / Logout
@@ -88,5 +124,46 @@ export class FormCreationComponent implements OnInit {
       },
       error: err => console.error('Form creation failed', err)
     });
+  }
+
+  fieldValidator(group: FormGroup) {
+    const type = group.get('type')?.value;
+
+    const minLength = group.get('minLength')?.value;
+    const maxLength = group.get('maxLength')?.value;
+
+    const minValue = group.get('minValue')?.value;
+    const maxValue = group.get('maxValue')?.value;
+
+    const errors: any = {};
+
+    if (type === 'text') {
+      if (minLength != null && minLength < 0) {
+        errors.minLengthInvalid = true;
+      }
+      if (
+        minLength != null &&
+        maxLength != null &&
+        maxLength < minLength
+      ) {
+        errors.maxLessThanMin = true;
+      }
+    }
+
+    if (type === 'number') {
+      if (
+        minValue != null &&
+        maxValue != null &&
+        maxValue < minValue
+      ) {
+        errors.maxValLessThanMinVal = true;
+      }
+    }
+
+    return Object.keys(errors).length > 0 ? errors : null;
+  }
+  conditionValidator(group: FormGroup) {
+    const errors: any = {};
+    return Object.keys(errors).length > 0 ? errors : null;
   }
 }
