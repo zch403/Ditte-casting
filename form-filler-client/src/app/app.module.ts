@@ -8,6 +8,8 @@ import { AppComponent } from './app.component';
 import { AdminPanelComponent } from './admin-panel/admin-panel.component';
 import { PublicSubmissionComponent } from './public-submission/public-submission.component';
 import { FormCreationComponent } from './form-creation/form-creation.component';
+import { ReactiveFormsModule } from '@angular/forms';
+
 
 @NgModule({
   declarations: [
@@ -20,6 +22,7 @@ import { FormCreationComponent } from './form-creation/form-creation.component';
     BrowserModule,
     AppRoutingModule,
     HttpClientModule,
+    ReactiveFormsModule,
     FormsModule
   ],
   providers: [],

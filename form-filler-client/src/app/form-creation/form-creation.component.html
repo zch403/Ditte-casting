@@ -28,143 +28,60 @@
   </div>
 </nav>
 
-<div *ngIf="isLoggedIn$ | async">
-  <div class="form-creation-container">
-    <h1>Create New Form</h1>
-    <h2>Form Title</h2>
-    <input [(ngModel)]="form.title" placeholder="Enter form title" />
+
+<div class="form-creation-container">
+  <h1>Create Form</h1>
+  <form [formGroup]="formGroup" (ngSubmit)="submitForm()">
+    <div class="form-title">
+      <label>Form Title</label>
+      <input formControlName="title" placeholder="Form Title" />
+      <div class="error" *ngIf="formGroup.get('title')?.touched && formGroup.get('title')?.invalid">
+        Title is required
+      </div>
+    </div>
+
+  <div class="fields-section" formArrayName="fields">
     <div class="fields-header"> 
-      <h1>Current Fields</h1>
-      <button class="create-btn" (click)="showFieldCreation=true">+</button>
+      <h2>Fields</h2>
+      <button type="button" (click)="addField()" class="create-btn">+</button>
     </div>
-    <div *ngIf="form.fields.length === 0" class="empty">
-      No fields yet.
-    </div>
-    <div class="fields-list">
-      <div class="field-card" *ngFor="let field of form.fields; let i = index;">
+    <div class="field-card-list">
+      <div *ngFor="let f of fields.controls; let i = index" [formGroupName]="i" class="field-card">
+        <div class="field-header">
+          <h3 class="field-nr">#{{ i + 1 }}</h3>
+          <button type="button" (click)="removeField(i)" class="delete-btn">X</button>
+        </div>
+
         <div class="row">
-          <span class="index">Field </span>
-          <span class="index" > {{ i + 1 }} </span>
-        </div>
-        <div class="row">
-          <span class="label">Label:</span>
-          <span class="value" > {{ field.label }} </span>
-        </div>
-        <div class="row">
-          <span class="label">Type:</span>
-          <span class="value" > {{ field.type }} </span>
-        </div>
-        <div class="row">
-          <span class="label">Required:</span>
-          <span class="value" > {{ field.isRequired ? 'Yes' : 'No' }} </span>
-        </div>
-        <div *ngIf="field.minLength" class="row">
-          <span class="label">Minimum Length:</span>
-          <span class="value" > {{ field.minLength }} </span>
-        </div>
-        <div *ngIf="field.maxLength" class="row">
-          <span class="label">Maximum Length:</span>
-          <span class="value" > {{ field.maxLength }} </span>
-        </div>
-        <div *ngIf="field.minValue" class="row">
-          <span class="label">Minimum Value:</span>
-          <span class="value" > {{ field.minValue }} </span>
-        </div>
-        <div *ngIf="field.maxValue" class="row">
-          <span class="label">Maximum Value:</span>
-          <span class="value" > {{ field.maxValue }} </span>
-        </div>
-        <div class="conditions-list">
-          <h4>Conditions</h4>
-          <div *ngFor="let cond of field.conditionsWhereTrigger; let ci=index" class="condition-card">
-            <span>{{ cond.operator }} {{ cond.value }} {{ conditionTargetsAsList(cond) }}</span>
-            <button (click)="removeCondition(i, ci)">Delete</button>
+          <label>Label</label>
+          <input class="field-label" formControlName="label" placeholder="Field Label" />
+          <div class="error" *ngIf="f.get('label')?.touched && f.get('label')?.invalid">
+            Label is required
           </div>
+        </div>
 
-          <div *ngIf="i == showCondFormIndex && showCondForm" class="new-condition-form">
-            <select [(ngModel)]="curCondition.operator">
-              <option value="equals">Equals</option>
-              <option value="not_equals">Not Equals</option>
-              <option value="greater">Greater than</option>
-              <option value="less">Less than</option>
-            </select>
-            <input [(ngModel)]="curCondition.value" placeholder="Value" />
-            <label>Target Fields:</label>
-            <div *ngFor="let f of form.fields; let fi = index">
-              <div *ngIf="fi>i">
-                <input type="checkbox" [value]="fi" (change)="toggleTarget(fi, $event)" 
-                      [checked]="isTargetChecked(fi)" />
-                <span>{{ f.label }}</span>
-              </div>
-            </div>
-            <button (click)="addCondition(i)">Add Condition</button>
-            <button (click)="showCondForm=false">Cancel</button>
+        <div class="row">
+          <label>Type</label>
+          <select formControlName="type">
+            <option value="">Select type</option>
+            <option value="text">Text</option>
+            <option value="number">Number</option>
+            <option value="boolean">Yes/No</option>
+            <option value="date">Date</option>
+          </select>
+          <div class="error" *ngIf="f.get('type')?.touched && f.get('type')?.invalid">
+            Type is required
           </div>
-          <button (click)="showCondForm = true; showCondFormIndex = i">+ Add Condition</button>
         </div>
 
-        <div class="actions">
-          <!-- Temporary delete button -->
-          <button class="delete-btn" (click)="removeField(i)">Delete Field</button>
+        <div class="row">
+          <label>Required</label>
+          <input type="checkbox" formControlName="isRequired" />
         </div>
+      </div>
     </div>
   </div>
-  <!-- Field Creation Form -->
-  <div *ngIf="showFieldCreation" class="new-field-form">
-    <h3>Add New Field</h3>
-    <div class="form-row">
-      <label>Label:</label>
-      <input [(ngModel)]="curField.label" placeholder="Field label" />
-    </div>
 
-    <div class="form-row">
-      <label>Type:</label>
-      <select [(ngModel)]="curField.type">
-        <option value="">Select type</option>
-        <option value="text">Text</option>
-        <option value="number">Number</option>
-        <option value="boolean">Boolean</option>
-        <option value="date">Date</option>
-        <option value="email">Email</option>
-        <option value="phonenumber">Phonenumber</option>
-      </select>
-    </div>
-
-    <div class="form-row">
-      <label>Required:</label>
-      <input type="checkbox" [(ngModel)]="curField.isRequired" />
-    </div>
-
-    <div *ngIf="curField.type == 'text'" class="form-row">
-      <label>Min Length:</label>
-      <input type="number" [(ngModel)]="curField.minLength" />
-    </div>
-
-    <div *ngIf="curField.type == 'text'" class="form-row">
-      <label>Max Length:</label>
-      <input type="number" [(ngModel)]="curField.maxLength" />
-    </div>
-
-    <div *ngIf="curField.type == 'number'" class="form-row">
-      <label>Min Value:</label>
-      <input type="number" [(ngModel)]="curField.minValue" />
-    </div>
-
-    <div *ngIf="curField.type == 'number'" class="form-row">
-      <label>Max Value:</label>
-      <input type="number" [(ngModel)]="curField.maxValue" />
-    </div>
-
-    <div class="form-actions">
-      <button (click)="addField()">Add Field</button>
-      <button (click)="showFieldCreation = false">Cancel</button>
-    </div>
-  </div>
-  <div *ngIf="fieldErrorMessage" class="error-message">
-    {{ fieldErrorMessage }}
-  </div>
-  <div *ngIf="formErrorMessage" class="error-message">
-    {{ formErrorMessage }}
-  </div>
-  <button class="create-btn" (click)="submitForm()">SubmitForm</button>
+    <button type="submit">Create Form</button>
+  </form>
 </div>
